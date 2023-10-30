@@ -3,10 +3,9 @@ import type { Session } from '@supabase/supabase-js';
 
 export const checkAuthorizationStatus = async (
   ctx: AppLoadContext,
-  request: Request,
-  response: Response = new Response()
+  res: Response
 ): Promise<{ session: Session | null }> => {
-  const supabase = ctx.supabase(response);
+  const supabase = ctx.supabase(res);
   try {
     const { data } = await supabase.auth.getSession();
     if (!data.session) {

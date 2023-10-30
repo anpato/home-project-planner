@@ -1,15 +1,10 @@
 import { type LoaderFunctionArgs, json } from '@remix-run/node';
 
-import { checkAuthorizationStatus } from '~/services/auth';
-
 export async function rootLoader({ request, context }: LoaderFunctionArgs) {
   const response = new Response();
   const { SUPABASE_URL = '', SUPABASE_KEY = '' } = process.env;
-  const { session = null } = await checkAuthorizationStatus(
-    context,
-    request,
-    response
-  );
+
+  const { data } = await context.supabase(response).auth.getSession();
   const env = {
     SUPABASE_KEY,
     SUPABASE_URL
@@ -18,7 +13,7 @@ export async function rootLoader({ request, context }: LoaderFunctionArgs) {
   return json(
     {
       env,
-      session
+      session: data.session
     },
     { headers: response.headers }
   );

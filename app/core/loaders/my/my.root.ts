@@ -2,7 +2,9 @@ import { type LoaderFunctionArgs, json, redirect } from '@remix-run/node';
 import { checkAuthorizationStatus } from '~/services/auth';
 
 export async function myRootLoader({ request, context }: LoaderFunctionArgs) {
-  const { session = null } = await checkAuthorizationStatus(context, request);
+  const res = new Response();
+  const { session = null } = await checkAuthorizationStatus(context, res);
+  console.log(session);
   const url = new URL(request.url);
   if (!session) {
     throw redirect(`/auth?redirect=${url.pathname}#login`);

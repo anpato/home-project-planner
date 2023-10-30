@@ -16,7 +16,8 @@ function getLoadContext(
   const remixRequest = createRemixRequest(request, response);
 
   return {
-    supabase: (resp: Response) => supabaseServer(remixRequest, resp)
+    supabase: (resp: Response = new Response()) =>
+      supabaseServer(remixRequest, resp)
   };
 }
 

@@ -1,17 +1,20 @@
 import { type LoaderFunctionArgs, json } from '@remix-run/node';
-import { checkAuthorizationStatus } from '../services/auth';
 import { useLoaderData } from '@remix-run/react';
 import DashboardZeroState from '~/routes/my/components/dashboard-zero-state';
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
-  const { session } = await checkAuthorizationStatus(context, request);
-  const response = new Response();
-  const { data } = await context
-    .supabase(response)
+  const resp = new Response();
+  const supabase = context.supabase(resp);
+
+  const {
+    data: { user = null }
+  } = await supabase.auth.getUser();
+
+  const { data } = await supabase
     .from('board')
     .select()
     .order('updated_at', { ascending: false })
-    .eq('admin_id', session?.user.id);
+    .eq('admin_id', user?.id);
 
   return json({
     boards: data

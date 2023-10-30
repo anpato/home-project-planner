@@ -1,0 +1,11 @@
+{
+  "restartable": "rs",
+  "ignore": [".git", "node_modules/", "reports/", "public/"],
+  "watch": ["./server/index.ts", "./server/context/*.ts", "build/index.js"],
+  "execMap": {
+    "ts": "tsup && node ./server/build/index.js"
+  },
+  "ext": "js,jsx,ts,tsx",
+  "delay": "5000",
+  "legacyWatch": true
+}

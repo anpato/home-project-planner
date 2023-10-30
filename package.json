@@ -6,6 +6,8 @@
     "build:server": "tsup --sourcemap",
     "build:remix": "remix build",
     "dev": "run-p  \"dev:*\"",
+    "lint": "eslint app/",
+    "lint:fix": "eslint --fix app/",
     "dev:remix": "remix dev --manual -c  \"nodemon -r ./server/index.ts\"",
     "dev:supabase": "supabase start && supabase status",
     "start": "cross-env NODE_ENV=production node ./build/index.js",
